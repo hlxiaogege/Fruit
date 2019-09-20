@@ -17,7 +17,7 @@ export default {
       currIndex: 0,
       tabbars: [
         {
-          name: "home", //跳转的路由
+          name: "index", //跳转的路由
           title: "首页",  //底部栏文字
           normal:require('../../public/img/01.png'),
           active:require('../../public/img/01a.png')
