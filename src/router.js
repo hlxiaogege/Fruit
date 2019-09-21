@@ -5,6 +5,7 @@ import Home from './views/Home'
 import Carts from './views/Carts'
 import Classify from './views/Classify'
 import Mine from './views/Mine'
+import Search from './views/Search'
 
 Vue.use(Router)
 
@@ -16,6 +17,7 @@ export default new Router({
     {path: '/carts',component: Carts},
     {path: '/classify',component: Classify},
     {path: '/mine',component: Mine},
+    {path: '/search',component: Search},
     
   ]
 })
