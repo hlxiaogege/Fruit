@@ -2,29 +2,66 @@
   <div>
     <div class="search-header classfix">
       <div class="left-arrow">
-        <a href="javascript:;">
+        <router-link to="/">
           <img src="../../public/img/leftarrow.png">
-        </a>
+        </router-link>
       </div>
       <div class="center-input">
-        <input placeholder="请输入关键词">
+        <input placeholder="请输入关键词" v-model="value"  @keydown.enter="submit">
         <a href="javascript:;" class="search-camera">
           <img src="../../public/img/camera.png">
         </a>
       </div>
       <div class="right-btn">
-        <button>搜索</button>
+        <button @click="submit">搜索</button>
       </div>
     </div>
-    <div class="search-content"></div>
+    <div class="search-history">
+      <h1>
+        <span>历史搜索</span>
+        <a  @click="clearHistory" href="javascript:;" class="search-delete">
+          <img src="../../public/img/delete.png">
+        </a>
+      </h1>
+      <div class="search-content">
+        <a v-for="(item,index) in historylist" :key="index" href="javascript:;" @click="notify">{{item}}
+        </a>
+      </div>
+    </div>
   </div>
 </template>
 <script>
 export default {
-  
+  data() {
+    return {
+      value:"",
+      historylist:[],
+    }
+  },
+  methods: {
+    submit(){
+      this.historylist.unshift(this.value);
+      this.value="";
+    },
+    clearHistory(){
+      this.$dialog.confirm({
+          message: "确认删除全部历史记录吗？",
+      }).then(()=>{
+        this.historylist=[];
+      }).catch(()=>{});
+    },
+    notify(){
+      this.$notify({
+        message: '该功能尚未完善',
+        color: '#ad0000',
+        background: '#ffe1e1'
+      })
+    }
+  }
 }
 </script>
 <style>
+/* 搜索框 */
 .search-header{
   background: #f6f6f6;
   padding: 0.8rem 0.3rem;
@@ -78,4 +115,36 @@ export default {
   font-size: 1rem;
   background: transparent;
 }
+/* 主体历史记录 */
+.search-history{
+  padding: 0.8rem;
+}
+.search-history h1{
+  color:#000;
+  font-size: 0.9rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  display: flex;
+  justify-content: space-between;
+}
+.search-history h1 a{
+  display: block;
+  width: 1.2rem;
+}
+.search-history h1 a img{
+  width: 100%;
+}
+.search-content{
+  display: flex;
+  flex-wrap: wrap;
+}
+.search-content a{
+  display: block;
+  padding: 0.5rem;
+  border-radius:40px;
+  margin-right: 0.6rem;
+  margin-bottom: 0.6rem;
+  background: #f6f6f6; 
+}
+
 </style>

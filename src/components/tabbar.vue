@@ -1,6 +1,6 @@
 <template>
   <div>
-    <van-tabbar v-model="active" active-color="#ff9800">
+    <van-tabbar v-model="active" active-color="#ff9800" style="z-index:10">
       <van-tabbar-item v-for="(item,index) in tabbars" :key="index" :to="item.name">
         <span>{{item.title}}</span>
         <img slot="icon" slot-scope="props" :src="props.active ? item.active : item.normal" />
