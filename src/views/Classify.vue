@@ -7,12 +7,6 @@
       <div class="classify-left">
         <div class="classify-perch"></div>
         <span :class="i==index?' pitch-on2':''" :data-i="index" class="classify-text1" v-for="(item,index) in leftMenu" :key="index" @click="chooseMenu">{{item}}</span>
-        <span class="classify-text1">111</span>
-        <span class="classify-text1">111</span>
-        <span class="classify-text1">111</span>
-        <span class="classify-text1">111</span>
-        <span class="classify-text1">111</span>
-        <span class="classify-text1">111</span>
         <div class="classify-perch2"></div>
       </div>
       <div class="classify-right-title">
@@ -37,9 +31,11 @@
             <a href="javascript:;" class="classify-box2-text1">
               {{item.title}}
             </a>
-            <span class="classify-box2-text2">￥{{item.price}}</span>
-            <div class="shop-cart-box3">
-              <button>加入购物车</button>
+            <div>
+              <span class="classify-box2-text2">￥{{item.price}}</span>
+              <div class="shop-cart-box3">
+                <button>加入购物车</button>
+              </div>
             </div>
           </div>
         </div>
@@ -322,6 +318,11 @@ export default {
   margin-left: 5rem;
   height: 4.6rem;
   margin-top: 0.4rem;
+}
+.classify-box2>div{
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
 }
 .classify-box2-text1 {
   width: 100%;

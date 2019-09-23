@@ -1,5 +1,5 @@
 <template>
-  <div style="background: #F5F5F4;">
+  <div class="carts" style="background: #F5F5F4;">
     <div class="carts-header">
       <div class="header-center-title">购物车</div>
       <a href="javascript:;" class="header-right">管理</a>
@@ -9,31 +9,73 @@
       <div class="cart-title">收货时间 
         <a href="javascript:;">今天30分钟可送达(可预订)</a>
       </div>
-      <div class="shop-cart-listbox classfix">
+      <div class="shop-cart-listbox classfix" v-for="(item,index) in list" :key="index">
         <div class="index-goods classfix">
-          <span class="shop-cart-check2"></span>
+          <span class="shop-cart-check2">
+            <input type="checkbox" class="shopcart-input1 btn2" v-model="item.isChecked">
+          </span>
           <span class="index-goods-img">
-            <img src="../../public/img/fruits-img12.png">
+            <img :src="item.img">
           </span>
           <div class="index-goods-textbox">
-            <span class="index-goods-text1">1SNP 燕窝补水面膜 10片/盒含燕窝精华 双倍补水保湿</span>
-            <div class="index-goods-text2">￥<i class="priceJs">10.00</i></div>
+            <span class="index-goods-text1">{{item.title}}</span>
+            <div class="index-goods-text2">￥<i class="priceJs">{{item.price.toFixed(2)}}</i></div>
             <div class="shop-cart-box3">
-              <a class="shop-cart-subtract" href="javascript:;"></a>
-              <input type="tel" value="1" class="shop-cart-numer">
-              <a class="shop-cart-add" href="javascript:;"></a>
+              <a class="shop-cart-subtract" @click="handle(-1)" href="javascript:;"></a>
+              <input type="tel" :value="item.count" class="shop-cart-numer">
+              <a class="shop-cart-add" @click="handle(1)" href="javascript:;"></a>
             </div>
           </div>
         </div>
+        <div class="shopPrice">
+          本店总计：￥
+          <span class="ShopTotal">{{total.toFixed(2)}}</span>
+        </div>
       </div>
     </div>
-
+    <div class="shop-cart-total">
+      <label for="" class="checkall">
+        <span class="shop-cart-check1">
+          <input type="checkbox" id="ckAll">
+        </span>
+        全选
+      </label>
+      <span class="scart-total-text2">合计：￥</span>
+      <span class="scart-total-text3">{{total.toFixed(2)}}</span>
+      <a href="javascript:;" class="scart-total-text4">去结算</a>
+    </div>
     <tabbar ref="tab"></tabbar>
   </div>
 </template>
 <script>
 import tabbar from "../components/tabbar"
 export default {
+  data(){
+    return{
+      list:[
+        {isChecked:false,img:require("../../public/img/fruits-img12.png"),title:"1SNP 燕窝补水面膜 10片/盒含燕窝精华 双倍补水保湿",price:10,count:1}
+      ]
+    }
+  },
+  methods:{
+    handle(i){
+      for(var item of this.list){
+        item.count+=i;
+        item.count<0&&(item.count=0);
+      }
+    }
+  },
+  computed:{
+    total(){
+      var sum=0;
+      for(var item of this.list){
+        if(item.isChecked){
+          sum+=item.count*item.price;
+        }
+      }
+      return sum;
+    }
+  },
   components:{
     'tabbar':tabbar
   },
@@ -106,7 +148,32 @@ export default {
   height: 7.5rem;
   float: left;
 }
-
+input[type=checkbox] {
+  position: relative;
+  float: left;
+  width: 1.4rem;
+  height: 1.4rem;
+  overflow: hidden;
+  margin-top: 0.45rem;
+}
+.shopcart-input1 {
+  margin-top: 3.15rem !important;
+}
+input[type=checkbox]::after {
+  content: '';
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 1.4rem;
+  height: 1.4rem;
+  background: url(../../public/img/check3.png) no-repeat center center;
+  background-size: 100%;
+}
+input[type=checkbox]:checked::after {
+  background: url(../../public/img/check4.png) no-repeat;
+  background-size: 100%;
+  content: '';
+}
 
 
 .index-goods-img {
@@ -120,6 +187,7 @@ export default {
   height: 6.25rem;
 }
 .index-goods-textbox {
+  width: 60%;
   height: 7rem;
 }
 .index-goods-text1 {
@@ -143,7 +211,7 @@ export default {
   margin-top: 0.28rem;
   font-size: 1.125rem;
 }
-.shop-cart-box3 {
+.index-goods-textbox .shop-cart-box3 {
   width: 100%;
   float: left;
   margin-top: 0.28rem;
@@ -165,10 +233,70 @@ export default {
   padding-left: 0.625rem;
 }
 .shop-cart-add {
-    width: 1.5rem;
-    height: 1.5rem;
-    float: left;
-    background: url(../../public/img/add.png) no-repeat center center;
-    background-size: 100%;
+  width: 1.5rem;
+  height: 1.5rem;
+  float: left;
+  background: url(../../public/img/add.png) no-repeat center center;
+  background-size: 100%;
+}
+
+
+/* 本店总计 */
+.carts .shopPrice {
+  width: 94%;
+  float: left;
+  height: 40px;
+  line-height: 40px;
+  background: #fff;
+  padding: 0px 3%;
+  font-size: 14px;
+  border-top: 1px solid #F9F9F9;
+  border-bottom: 1px solid #F9F9F9;
+}
+
+/* 全选 */
+.shop-cart-total {
+  width: 94%;
+  height: 2.8rem;
+  position: fixed;
+  bottom: 3.125rem;
+  left: 0px;
+  background-color: #FFFFFF;
+  z-index: 999;
+  padding: 0px 3%;
+  border-bottom: 1px solid #F7F7F7;
+  line-height: 2.8rem;
+}
+.checkall {
+  float: left;
+  font-size: 1rem;
+}
+#ckAll {
+  margin-top: 0.615rem;
+  margin-right: 0.625rem;
+}
+.scart-total-text2 {
+  float: left;
+  margin-left: 0.425rem;
+  font-size: 0.88rem;
+  color: #A3A3A3;
+}
+.scart-total-text3 {
+  float: left;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #FF9201;
+}
+.scart-total-text4 {
+  width: 4.5rem;
+  text-align: center;
+  float: right;
+  background: #FF9201;
+  height: 1.9rem;
+  margin-top: 0.425rem;
+  line-height: 1.9rem;
+  border-radius: 0.925rem;
+  color: #fff;
+  font-size: 0.88rem;
 }
 </style>
