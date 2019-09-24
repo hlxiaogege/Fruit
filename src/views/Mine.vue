@@ -3,7 +3,7 @@
     <!-- 固定页头 -->
     <div class="mine-header">
       <p>个人中心</p>
-      <a href="javascript:;">管理</a>
+      <router-link to="/mine-setting">管理</router-link>
     </div>
     <!-- 主体内容 -->
     <div class="mine-body">
@@ -85,6 +85,20 @@
           </span>
           <span>售后服务</span>
         </a>
+        <a href="javascript:;" class="mine-list-item">
+          <img src="../../public/img/arrow-right 3.png">
+          <span class="mine-item-img">
+            <img src="../../public/img/personal-center-img13.png">
+          </span>
+          <span>我的足迹</span>
+        </a>
+        <a href="javascript:;" class="mine-list-item">
+          <img src="../../public/img/arrow-right 3.png">
+          <span class="mine-item-img">
+            <img src="../../public/img/personal-center-img14.png">
+          </span>
+          <span>我的收藏</span>
+        </a>
       </div>
 
 
@@ -116,7 +130,7 @@ export default {
   background: #F7F7F7;
 }
 /* 页头 */
-.mine-header{
+.mine .mine-header{
   position: fixed;
   top: 0;
   z-index: 10;
@@ -125,12 +139,12 @@ export default {
   padding: 0.8rem 1rem;
   display: flex;
 }
-.mine-header>p{
+.mine .mine-header>p{
   width: 60%;
   text-align: right;
   font-size: 1rem;
 }
-.mine-header>a{
+.mine .mine-header>a{
   width: 38%;
   font-size: 0.85rem;
   text-align: right;
