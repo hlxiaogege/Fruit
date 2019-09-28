@@ -157,7 +157,7 @@ input[type=checkbox] {
   margin-top: 0.45rem;
 }
 .shopcart-input1 {
-  margin-top: 3.1rem !important;
+  margin-top: 3.15rem !important;
 }
 input[type=checkbox]::after {
   content: '';
@@ -272,7 +272,7 @@ input[type=checkbox]:checked::after {
   font-size: 1rem;
 }
 #ckAll {
-  margin-top: 0.625rem;
+  margin-top: 0.615rem;
   margin-right: 0.625rem;
 }
 .scart-total-text2 {

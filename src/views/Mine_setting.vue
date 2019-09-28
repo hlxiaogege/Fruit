@@ -1,6 +1,6 @@
 <template>
   <div class="Mine-setting">
-    <myheader message="/mine"></myheader>
+    <myheader message="/mine" what="设置"></myheader>
     <div class="mine-setting-box">
       <div class="mine-setting-list1">
         <a href="javascript:;">
@@ -14,6 +14,61 @@
           <span>生物识别</span>
           <div>
             <span class="last-span">人脸、指纹、声纹</span>
+            <img src="../../public/img/arrow-right.png" alt="">
+          </div>
+        </a>
+      </div>
+      <div class="mine-setting-list1">
+        <a href="javascript:;">
+          <span>支付设置</span>
+          <div>
+            <img src="../../public/img/arrow-right.png" alt="">
+          </div>
+        </a>
+        <a href="javascript:;">
+          <span>通用</span>
+          <div>
+            <img src="../../public/img/arrow-right.png" alt="">
+          </div>
+        </a>
+        <a href="javascript:;">
+          <span>快捷方式设置</span>
+          <div>
+            <img src="../../public/img/arrow-right.png" alt="">
+          </div>
+        </a>
+      </div>
+       <div class="mine-setting-list1">
+        <a href="javascript:;">
+          <span>隐私</span>
+          <div>
+            <img src="../../public/img/arrow-right.png" alt="">
+          </div>
+        </a>
+        <a href="javascript:;">
+          <span>求助反馈</span>
+          <div>
+            <span class="last-span">版本号10.1.60</span>
+            <img src="../../public/img/arrow-right.png" alt="">
+          </div>
+        </a>
+        <a href="javascript:;">
+          <span>关于</span>
+          <div>
+            <img src="../../public/img/arrow-right.png" alt="">
+          </div>
+        </a>
+      </div>
+      <div class="mine-setting-list1">
+        <a href="javascript:;">
+          <span>换账号登录</span>
+          <div>
+            <img src="../../public/img/arrow-right.png" alt="">
+          </div>
+        </a>
+        <a href="javascript:;">
+          <span>退出登录</span>
+          <div>
             <img src="../../public/img/arrow-right.png" alt="">
           </div>
         </a>

@@ -144,7 +144,7 @@ export default {
   border-radius:40px;
   margin-right: 0.6rem;
   margin-bottom: 0.6rem;
-  background: #f6f6f6; 
+  background: #fff; 
 }
 
 </style>

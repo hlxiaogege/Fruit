@@ -5,12 +5,11 @@
       <a @click="toWhere">
         <img src="../../public/img/arrow-left2.png" alt="">
       </a>
-      <p>设置</p>
+      <p>{{what}}</p>
     </div>
   </div>
 </template>
 <script>
-
 export default {
   name:"myheader",
   data(){
@@ -23,7 +22,7 @@ export default {
       this.$router.push(`${this.message}`);
     }
   },
-  props:["message"]
+  props:["message","what"]
 }
 </script>
 <style>
@@ -34,11 +33,11 @@ export default {
   width: 100%;
   box-sizing: border-box;
   padding: 0.8rem 1rem;
-  display: flex;
   background: #fff;
+  text-align: center;
 }
 .gm-header .header a{
-  width: 45%;
+  float: left;
 }
 .gm-header .header a img{
   width: 1.2rem;
