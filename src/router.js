@@ -11,6 +11,7 @@ import Myorder from './views/Myorder'
 import Coupon from './views/Coupon'
 import Myaddress from './views/Myaddress'
 import AddAdress from './views/AddAdress'
+import UpdateInfo from './views/UpdateInfo'
 
 Vue.use(Router)
 
@@ -28,6 +29,7 @@ export default new Router({
     {path: '/coupon',component: Coupon},
     {path: '/myaddress',component: Myaddress},
     {path: '/addadress',component: AddAdress},
+    {path: '/updateinfo',component: UpdateInfo},
     
   ]
 })

@@ -11,7 +11,9 @@
         <img src="../../public/img/mine-bg1.jpg">
         <div class="mine-personal-box">
           <div class="mine-personal-img">
-            <img src="../../public/img/timg1.jpg">
+            <router-link to="/updateinfo">
+              <img src="../../public/img/timg1.jpg">
+            </router-link>
           </div>
           <div class="mine-personal-info">
             <span class="mine-personal-text1">青春微凉伴离殇</span>
