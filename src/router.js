@@ -12,6 +12,11 @@ import Coupon from './views/Coupon'
 import Myaddress from './views/Myaddress'
 import AddAdress from './views/AddAdress'
 import UpdateInfo from './views/UpdateInfo'
+import Login from './views/Login'
+import Forget from './views/Forget'
+import Reg from './views/Reg'
+import Service from './views/Service'
+import Problem from './views/Problem'
 
 Vue.use(Router)
 
@@ -30,6 +35,11 @@ export default new Router({
     {path: '/myaddress',component: Myaddress},
     {path: '/addadress',component: AddAdress},
     {path: '/updateinfo',component: UpdateInfo},
+    {path: '/login',component: Login},
+    {path: '/forget',component: Forget},
+    {path: '/reg',component: Reg},
+    {path: '/service',component: Service},
+    {path: '/problem',component: Problem},
     
   ]
 })

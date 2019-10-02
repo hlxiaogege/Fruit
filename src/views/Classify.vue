@@ -178,6 +178,7 @@ export default {
 .classify-text1 {
   width: 100%;
   float: left;
+  background: #fff;
   text-align: center;
   height: 2.5rem;
   line-height: 2.5rem;
@@ -297,6 +298,7 @@ export default {
 }
 .classify-box1 {
   width: 100%;
+  background: #fff;
   float: left;
   height: 5rem;
   border-bottom: 1px solid #EFEFEF;

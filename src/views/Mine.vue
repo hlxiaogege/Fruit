@@ -80,13 +80,13 @@
           </span>
           <span>收货地址</span>
         </router-link>
-        <a href="javascript:;" class="mine-list-item">
+        <router-link to="/service" class="mine-list-item">
           <img src="../../public/img/arrow-right 3.png">
           <span class="mine-item-img">
             <img src="../../public/img/personal-center-img12.png">
           </span>
           <span>售后服务</span>
-        </a>
+        </router-link>
         <a href="javascript:;" class="mine-list-item">
           <img src="../../public/img/arrow-right 3.png">
           <span class="mine-item-img">

@@ -108,7 +108,7 @@ export default {
   line-height: 45px;
 }
 .sh-adress-text3 {
-  width: 40%;
+  width: 60%;
   height: 45px;
   float: left;
   background-size: 17%;

@@ -112,7 +112,7 @@ export default {
   display: flex;
 }
 .info-list span{
-  width: 15%;
+  width: 20%;
   line-height: 44px;
   text-align: left;
   font-size: 0.85rem

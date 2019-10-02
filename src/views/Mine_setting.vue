@@ -60,18 +60,18 @@
         </a>
       </div>
       <div class="mine-setting-list1">
-        <a href="javascript:;">
+        <router-link to="/login">
           <span>换账号登录</span>
           <div>
             <img src="../../public/img/arrow-right.png" alt="">
           </div>
-        </a>
-        <a href="javascript:;">
+        </router-link>
+        <router-link to="/login">
           <span>退出登录</span>
           <div>
             <img src="../../public/img/arrow-right.png" alt="">
           </div>
-        </a>
+        </router-link>
       </div>
     </div>
   </div>
