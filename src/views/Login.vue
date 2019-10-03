@@ -10,14 +10,14 @@
      <form action="">
         <div class="login-input-box">
           <i class="icon icon-phone"></i>
-          <input placeholder="请输入手机号">
+          <input v-model="uname" placeholder="请输入手机号">
         </div>
         <div class="login-input-box">
           <i class="icon icon-psd"></i>
-          <input type="password" placeholder="请输入密码号">
+          <input v-model="upwd" type="password" placeholder="请输入密码号">
         </div>
         <div class="login-input-btn">
-          <button>登录</button>
+          <button @click="login">登录</button>
         </div>
         <div class="login-input-other">
           <router-link to="/forget">忘记密码？</router-link>
@@ -29,7 +29,41 @@
 </template>
 <script>
 export default {
-  
+  data() {
+    return {
+      uname:"",
+      upwd:""
+    }
+  },
+  methods: {
+    login(){
+      var u=this.uname;
+      var p=this.upwd;
+      var reg=/^[0-9a-zA-Z]{3,12}$/;
+      if(!reg.test(u)){
+        this.$toast("用户名格式错误");
+        return;
+      }
+      if(!reg.test(p)){
+        this.$toast("消息","密码格式错误");
+        return;
+      }
+      this.axios.get('login',{
+        params:{uname:u,upwd:p}
+      }).then(result=>{
+        if(result.data.code==1){
+          this.$toast.success("登陆成功");
+          setTimeout(()=>{
+            this.$router.push("/index");
+          },2000);
+        }else{
+          this.$dialog({
+            message: '用户名或密码错误'
+          })
+        }
+      })
+    }
+  },
 }
 </script>
 <style>

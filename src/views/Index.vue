@@ -222,17 +222,18 @@
         <div class="guesslike-box">
           <a href="javascript:;" class="guesslike-item" v-for="(item,index) in grusslist" :key="index">
             <div class="grusslike-img">
-              <img :src="item.img">
+              <img :src="require(`../../public/img/${item.img_url}`)">
             </div>
             <div class="grusslike-content">
-              <div class="grusslike-title">{{item.title}}{{item.unit}}</div>
+              <div class="grusslike-title">{{item.title}}</div>
               <div class="grusslike-price">
-                <span>￥{{item.discount.toFixed(2)}}</span>
-                <i>￥{{item.original.toFixed(2)}}</i>
+                <span>￥{{(item.price*0.85).toFixed(1)}}</span>
+                <i>￥{{item.price.toFixed(2)}}</i>
               </div>
             </div>
           </a>
         </div>
+        <a @click="loadMore" class="load" href="javascript:;">{{loads}}</a>
       </div>
     </div>
     <a @click="backTop" :class="backBtn?'scroll-btn':'scroll-btnclose'" href="javascript:;">
@@ -385,70 +386,31 @@ export default {
           discount:10.8
         },
       ],
-      grusslist:[
-        {
-          img:require("../../public/img/gruss-img1.png"),
-          title:"新鲜海南大香蕉",
-          unit:"/500g",
-          original:6.9,
-          discount:5.9
-        },
-        {
-          img:require("../../public/img/gruss-img2.png"),
-          title:"丰富蛋白质豆制品",
-          original:9.9,
-          unit:"/盒 约300g",
-          discount:7.9
-        },
-        {
-          img:require("../../public/img/gruss-img3.png"),
-          title:"农家散养土鸡蛋",
-          original:8.9,
-          unit:"/500g",
-          discount:7.5
-        },
-        {
-          img:require("../../public/img/gruss-img4.png"),
-          title:"科尔沁草原纯牛奶",
-          original:6.9,
-          unit:"/袋 约500g",
-          discount:6.5
-        },
-        {
-          img:require("../../public/img/gruss-img5.png"),
-          title:"新鲜精加工手擀面",
-          original:12.9,
-          unit:"/袋 约400g",
-          discount:10.5
-        },
-        {
-          img:require("../../public/img/gruss-img6.png"),
-          title:"新鲜饲养猪肉卷",
-          original:15.9,
-          unit:"/盒",
-          discount:13.5
-        },
-        {
-          img:require("../../public/img/gruss-img7.png"),
-          title:"新疆呼伦贝尔草原羊肉卷",
-          unit:"/盒 约600g",
-          original:25.9,
-          discount:22.6
-        },
-        {
-          img:require("../../public/img/gruss-img8.png"),
-          title:"散养本地黑猪猪血",
-          unit:"/盒 约300g",
-          original:18.9,
-          discount:17.6
-        },
-      ],
+      grusslist:[],
       backBtn:false,
       scrollTop:0,
       timer:null,
+      pno:0,
+      loads:"加载更多"
     }
   },
   methods: {
+    loadMore(){
+      this.pno++;
+      var url="index";
+      this.axios.get(url,{
+        params:{
+          pno:this.pno
+        }
+      }).then(res=>{
+        var rows=res.data.data;
+       console.log(rows.length);
+       if(rows.length==0){
+         this.loads="暂无更多数据"
+       }
+        this.grusslist=this.grusslist.concat(rows);
+      }).catch(err=>{})
+    },
     tosearch(){
       this.$router.push("/search");
     },
@@ -485,6 +447,9 @@ export default {
         background: '#ffe1e1'
       })
     }
+  },
+  created(){
+    this.loadMore();
   },
   components:{
     'tabbar':tabbar
@@ -557,6 +522,11 @@ export default {
 .index-bigbox{
   margin-top: 3.8rem;
   margin-bottom: 4rem;
+}
+.index-bigbox .load{
+  display: block;
+  text-align: center;
+  color: #aaa;
 }
 .banner img{
   width: 100%;

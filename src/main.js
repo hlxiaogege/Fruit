@@ -8,6 +8,13 @@ import Vant from 'vant';
 import 'vant/lib/index.css';
 Vue.use(Vant);
 
+// axios
+import axios from "axios"
+axios.defaults.withCredentials=true;
+axios.defaults.baseURL="http://127.0.0.1:5050/"
+Vue.prototype.axios=axios;
+
+
 Vue.config.productionTip = false
 
 new Vue({
