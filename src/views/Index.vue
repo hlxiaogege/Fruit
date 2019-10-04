@@ -404,7 +404,6 @@ export default {
         }
       }).then(res=>{
         var rows=res.data.data;
-       console.log(rows.length);
        if(rows.length==0){
          this.loads="暂无更多数据"
        }

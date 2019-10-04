@@ -9,16 +9,17 @@
     <div class="mine-body">
       <div class="mine-pic-container">
         <img src="../../public/img/mine-bg1.jpg">
-        <div class="mine-personal-box">
+        <div :style="{display:infoShow}" class="mine-personal-box">
           <div class="mine-personal-img">
             <router-link to="/updateinfo">
-              <img src="../../public/img/timg1.jpg">
+              <img :src="require(`../../public/img/${img}`)">
             </router-link>
           </div>
           <div class="mine-personal-info">
-            <span class="mine-personal-text1">青春微凉伴离殇</span>
+            <span class="mine-personal-text1">{{uname}}</span>
           </div>
         </div>
+
       </div>
       <div class="order-container">
         <div class="myorder">
@@ -46,14 +47,12 @@
               <img src="../../public/img/personal-center-img3.png">
             </span>
             <span class="order-list-text">待收货</span>
-            <i>1</i>
           </a>
           <a  @click="toMyOrder(4)" href="javascript:;" class="order-list order1">
             <span class="order-list-img">
               <img src="../../public/img/personal-center-img4.png">
             </span>
             <span class="order-list-text">待评价</span>
-            <i>2</i>
           </a>
           <a  @click="toMyOrder(0)" href="javascript:;" class="order-list order1">
             <span class="order-list-img">
@@ -109,7 +108,32 @@
 <script>
 import tabbar from "../components/tabbar"
 export default {
+  data() {
+    return {
+      img:'timg1.jpg',
+      uname:"",
+      infoShow:"block",
+    }
+  },
   methods: {
+    showInfo(){
+      var url="showinfo";
+      this.axios.get(url).then(res=>{
+        if(res.data.code==1){
+          this.img=res.data.data[0].img_url;
+          this.uname=res.data.data[0].uname;
+        }else{
+          this.infoShow="none";
+          this.$dialog.confirm({
+            message:"您尚未登陆，是否先登录"
+          }).then(()=>{
+            this.$router.push("/login");
+          }).catch(()=>{
+            this.$router.push("/classify");
+          })
+        }
+      }).catch(err=>{})
+    },
     toMyOrder(i){
       this.$router.push("/myorder");
       this.$store.commit("setNumber",i);
@@ -117,6 +141,9 @@ export default {
   },
   components:{
     'tabbar':tabbar
+  },
+  created(){
+    this.showInfo();
   },
   mounted(){
     this.$refs.tab.active=3;

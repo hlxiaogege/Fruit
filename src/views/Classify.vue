@@ -25,7 +25,7 @@
         <div class="classify-perch-r"></div>
         <div class="classify-box1" v-for="(item,id) in each" :key="id">
           <a href="javascript:;" class="classify-box1-img1">
-            <img :src="item.img">
+            <img :src="require(`../../public/img/${item.img}`)">
           </a>
           <div class="classify-box2">
             <a href="javascript:;" class="classify-box2-text1">
@@ -34,7 +34,7 @@
             <div>
               <span class="classify-box2-text2">￥{{item.price}}</span>
               <div class="shop-cart-box3">
-                <button>加入购物车</button>
+                <button @click="addCart" :data-img="item.img" :data-i="item.lid" :data-price="item.price" :data-title="item.title">加入购物车</button>
               </div>
             </div>
           </div>
@@ -50,6 +50,7 @@ export default {
   data() {
     return {
       value:"",
+      img:"fruits-img2.png",
       i:0,
       n:0,
       m:1,
@@ -59,47 +60,70 @@ export default {
       leftMenu:["热销新品","优选水果","卤味熟食","牛奶面包","热饮","冰淇淋","饮料酒水","休闲零食","方便速食","数码家电","环球美食","运动户外"],
       hiddenlist:["全部分类","进口水果","国产水果","柑橘橙柚","苹果/梨","桃杏梅枣"],
       lists:[
-        [{img:require("../../public/img/fruits-img2.png"),title:"新鲜青柠500g/盒新鲜特价新鲜特价新鲜特价",price:10.8},
-        {img:require("../../public/img/fruits-img2.png"),title:"新鲜青柠500g/盒新鲜特价新鲜特价新鲜特价",price:11.8},
-        {img:require("../../public/img/fruits-img2.png"),title:"新鲜青柠500g/盒新鲜特价新鲜特价新鲜特价",price:12.8},],
-        [{img:require("../../public/img/fruits-img4.png"),title:"新鲜青柠500g/盒新鲜特价新鲜特价新鲜特价",price:13.8},
-        {img:require("../../public/img/fruits-img4.png"),title:"新鲜青柠500g/盒新鲜特价新鲜特价新鲜特价",price:14.8},
-        {img:require("../../public/img/fruits-img4.png"),title:"新鲜青柠500g/盒新鲜特价新鲜特价新鲜特价",price:15.8},],
-        [{img:require("../../public/img/fruits-img7.png"),title:"新鲜青柠500g/盒新鲜特价新鲜特价新鲜特价",price:16.8},
-        {img:require("../../public/img/fruits-img7.png"),title:"新鲜青柠500g/盒新鲜特价新鲜特价新鲜特价",price:17.8},
-        {img:require("../../public/img/fruits-img7.png"),title:"新鲜青柠500g/盒新鲜特价新鲜特价新鲜特价",price:18.8},],
-        [{img:require("../../public/img/fruits-img8.png"),title:"新鲜青柠500g/盒新鲜特价新鲜特价新鲜特价",price:19.8},
-        {img:require("../../public/img/fruits-img8.png"),title:"新鲜青柠500g/盒新鲜特价新鲜特价新鲜特价",price:20.8},
-        {img:require("../../public/img/fruits-img8.png"),title:"新鲜青柠500g/盒新鲜特价新鲜特价新鲜特价",price:21.8},],
-        [{img:require("../../public/img/fruits-img9.png"),title:"新鲜青柠500g/盒新鲜特价新鲜特价新鲜特价",price:22.8},
-        {img:require("../../public/img/fruits-img9.png"),title:"新鲜青柠500g/盒新鲜特价新鲜特价新鲜特价",price:23.8},
-        {img:require("../../public/img/fruits-img9.png"),title:"新鲜青柠500g/盒新鲜特价新鲜特价新鲜特价",price:24.8},],
-        [{img:require("../../public/img/fruits-img10.png"),title:"新鲜青柠500g/盒新鲜特价新鲜特价新鲜特价",price:25.8},
-        {img:require("../../public/img/fruits-img10.png"),title:"新鲜青柠500g/盒新鲜特价新鲜特价新鲜特价",price:26.8},
-        {img:require("../../public/img/fruits-img10.png"),title:"新鲜青柠500g/盒新鲜特价新鲜特价新鲜特价",price:27.8},],
-        [{img:require("../../public/img/fruits-img11.png"),title:"新鲜青柠500g/盒新鲜特价新鲜特价新鲜特价",price:28.8},
-        {img:require("../../public/img/fruits-img11.png"),title:"新鲜青柠500g/盒新鲜特价新鲜特价新鲜特价",price:29.8},
-        {img:require("../../public/img/fruits-img11.png"),title:"新鲜青柠500g/盒新鲜特价新鲜特价新鲜特价",price:30.8},],
-        [{img:require("../../public/img/fruits-img12.png"),title:"新鲜青柠500g/盒新鲜特价新鲜特价新鲜特价",price:31.8},
-        {img:require("../../public/img/fruits-img12.png"),title:"新鲜青柠500g/盒新鲜特价新鲜特价新鲜特价",price:32.8},
-        {img:require("../../public/img/fruits-img12.png"),title:"新鲜青柠500g/盒新鲜特价新鲜特价新鲜特价",price:33.8},],
-        [{img:require("../../public/img/fruits-img13.png"),title:"新鲜青柠500g/盒新鲜特价新鲜特价新鲜特价",price:34.8},
-        {img:require("../../public/img/fruits-img13.png"),title:"新鲜青柠500g/盒新鲜特价新鲜特价新鲜特价",price:35.8},
-        {img:require("../../public/img/fruits-img13.png"),title:"新鲜青柠500g/盒新鲜特价新鲜特价新鲜特价",price:36.8},],
-        [{img:require("../../public/img/fruits-img7.png"),title:"新鲜青柠500g/盒新鲜特价新鲜特价新鲜特价",price:10.8},
-        {img:require("../../public/img/fruits-img4.png"),title:"新鲜青柠500g/盒新鲜特价新鲜特价新鲜特价",price:15.8},
-        {img:require("../../public/img/fruits-img2.png"),title:"新鲜青柠500g/盒新鲜特价新鲜特价新鲜特价",price:16.8},],
-        [{img:require("../../public/img/fruits-img11.png"),title:"新鲜青柠500g/盒新鲜特价新鲜特价新鲜特价",price:10.8},
-        {img:require("../../public/img/fruits-img10.png"),title:"新鲜青柠500g/盒新鲜特价新鲜特价新鲜特价",price:1.8},
-        {img:require("../../public/img/fruits-img8.png"),title:"新鲜青柠500g/盒新鲜特价新鲜特价新鲜特价",price:10.8},],
-        [{img:require("../../public/img/fruits-img9.png"),title:"新鲜青柠500g/盒新鲜特价新鲜特价新鲜特价",price:10.8},
-        {img:require("../../public/img/fruits-img13.png"),title:"新鲜青柠500g/盒新鲜特价新鲜特价新鲜特价",price:10.8},
-        {img:require("../../public/img/fruits-img12.png"),title:"新鲜青柠500g/盒新鲜特价新鲜特价新鲜特价",price:10.8},]
+        [{img:"fruits-img2.png",lid:2,title:"新鲜青柠500g/盒新鲜特价新鲜特价新鲜特价",price:10.8},
+        {img:"fruits-img2.png",lid:3,title:"新鲜青柠500g/盒新鲜特价新鲜特价新鲜特价",price:11.8},
+        {img:"fruits-img2.png",lid:1,title:"新鲜青柠500g/盒新鲜特价新鲜特价新鲜特价",price:12.8},],
+        [{img:"fruits-img4.png",lid:4,title:"新鲜青柠500g/盒新鲜特价新鲜特价新鲜特价",price:13.8},
+        {img:"fruits-img4.png",lid:9,title:"新鲜青柠500g/盒新鲜特价新鲜特价新鲜特价",price:14.8},
+        {img:"fruits-img4.png",lid:6,title:"新鲜青柠500g/盒新鲜特价新鲜特价新鲜特价",price:15.8},],
+        [{img:"fruits-img7.png",lid:5,title:"新鲜青柠500g/盒新鲜特价新鲜特价新鲜特价",price:16.8},
+        {img:"fruits-img7.png",lid:7,title:"新鲜青柠500g/盒新鲜特价新鲜特价新鲜特价",price:17.8},
+        {img:"fruits-img7.png",lid:8,title:"新鲜青柠500g/盒新鲜特价新鲜特价新鲜特价",price:18.8},],
+        [{img:"fruits-img8.png",lid:10,title:"新鲜青柠500g/盒新鲜特价新鲜特价新鲜特价",price:19.8},
+        {img:"fruits-img8.png",lid:12,title:"新鲜青柠500g/盒新鲜特价新鲜特价新鲜特价",price:20.8},
+        {img:"fruits-img8.png",lid:18,title:"新鲜青柠500g/盒新鲜特价新鲜特价新鲜特价",price:21.8},],
+        [{img:"fruits-img9.png",lid:19,title:"新鲜青柠500g/盒新鲜特价新鲜特价新鲜特价",price:22.8},
+        {img:"fruits-img9.png",lid:11,title:"新鲜青柠500g/盒新鲜特价新鲜特价新鲜特价",price:23.8},
+        {img:"fruits-img9.png",lid:25,title:"新鲜青柠500g/盒新鲜特价新鲜特价新鲜特价",price:24.8},],
+        [{img:"fruits-img10.png",lid:21,title:"新鲜青柠500g/盒新鲜特价新鲜特价新鲜特价",price:25.8},
+        {img:"fruits-img10.png",lid:15,title:"新鲜青柠500g/盒新鲜特价新鲜特价新鲜特价",price:26.8},
+        {img:"fruits-img10.png",lid:13,title:"新鲜青柠500g/盒新鲜特价新鲜特价新鲜特价",price:27.8},],
+        [{img:"fruits-img11.png",lid:16,title:"新鲜青柠500g/盒新鲜特价新鲜特价新鲜特价",price:28.8},
+        {img:"fruits-img11.png",lid:22,title:"新鲜青柠500g/盒新鲜特价新鲜特价新鲜特价",price:29.8},
+        {img:"fruits-img11.png",lid:29,title:"新鲜青柠500g/盒新鲜特价新鲜特价新鲜特价",price:30.8},],
+        [{img:"fruits-img12.png",lid:28,title:"新鲜青柠500g/盒新鲜特价新鲜特价新鲜特价",price:31.8},
+        {img:"fruits-img12.png",lid:34,title:"新鲜青柠500g/盒新鲜特价新鲜特价新鲜特价",price:32.8},
+        {img:"fruits-img12.png",lid:36,title:"新鲜青柠500g/盒新鲜特价新鲜特价新鲜特价",price:33.8},],
+        [{img:"fruits-img13.png",lid:35,title:"新鲜青柠500g/盒新鲜特价新鲜特价新鲜特价",price:34.8},
+        {img:"fruits-img13.png",lid:23,title:"新鲜青柠500g/盒新鲜特价新鲜特价新鲜特价",price:35.8},
+        {img:"fruits-img13.png",lid:44,title:"新鲜青柠500g/盒新鲜特价新鲜特价新鲜特价",price:36.8},],
+        [{img:"fruits-img7.png",lid:45,title:"新鲜青柠500g/盒新鲜特价新鲜特价新鲜特价",price:10.8},
+        {img:"fruits-img4.png",lid:43,title:"新鲜青柠500g/盒新鲜特价新鲜特价新鲜特价",price:15.8},
+        {img:"fruits-img2.png",lid:24,title:"新鲜青柠500g/盒新鲜特价新鲜特价新鲜特价",price:16.8},],
+        [{img:"fruits-img11.png",lid:26,title:"新鲜青柠500g/盒新鲜特价新鲜特价新鲜特价",price:10.8},
+        {img:"fruits-img10.png",lid:49,title:"新鲜青柠500g/盒新鲜特价新鲜特价新鲜特价",price:10.8},
+        {img:"fruits-img8.png",lid:48,title:"新鲜青柠500g/盒新鲜特价新鲜特价新鲜特价",price:10.8},],
+        [{img:"fruits-img9.png",lid:27,title:"新鲜青柠500g/盒新鲜特价新鲜特价新鲜特价",price:10.8},
+        {img:"fruits-img13.png",lid:39,title:"新鲜青柠500g/盒新鲜特价新鲜特价新鲜特价",price:10.8},
+        {img:"fruits-img12.png",lid:31,title:"新鲜青柠500g/盒新鲜特价新鲜特价新鲜特价",price:10.8},]
 
       ]
     }
   },
   methods: {
+    addCart(e){
+      var lid=e.target.dataset.i;
+      var title=e.target.dataset.title;
+      var price=e.target.dataset.price;
+      var img=e.target.dataset.img;
+      var url="addcart";
+      this.axios.get(url,{params:{
+        lid,title,price,img
+      }}).then(res=>{
+        if(res.data.code==1){
+          this.$toast.success("添加成功");
+        }else if(res.data.code==-1){
+          this.$dialog.confirm({
+            title:"提示",
+            message:"您尚未登陆，是否先登录"
+          }).then(()=>{
+            this.$router.push('/login');
+          }).catch(()=>{})
+        }else if(res.data.code==-2){
+          this.$toast.fail("添加失败");
+        }
+      })
+    },
     chooseHiddenList(e){
       this.m=e.target.dataset.m;
       console.log(this.m);

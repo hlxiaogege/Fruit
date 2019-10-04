@@ -12,31 +12,43 @@
       <div class="shop-cart-listbox classfix" v-for="(item,index) in list" :key="index">
         <div class="index-goods classfix">
           <span class="shop-cart-check2">
-            <input type="checkbox" class="shopcart-input1 btn2" v-model="item.isChecked">
+            <input type="checkbox" class="shopcart-input1 btn2" v-model="checkedList" :value="item.id">
           </span>
           <span class="index-goods-img">
-            <img :src="item.img">
+            <img :src="require(`../../public/img/${item.img_url}`)">
           </span>
           <div class="index-goods-textbox">
             <span class="index-goods-text1">{{item.title}}</span>
             <div class="index-goods-text2">￥<i class="priceJs">{{item.price.toFixed(2)}}</i></div>
             <div class="shop-cart-box3">
-              <a class="shop-cart-subtract" @click="handle(-1)" href="javascript:;"></a>
+              <a class="shop-cart-subtract" :data-id="item.id" :data-count="item.count" @click="handle(-1,$event)" href="javascript:;"></a>
               <input type="tel" :value="item.count" class="shop-cart-numer">
-              <a class="shop-cart-add" @click="handle(1)" href="javascript:;"></a>
+              <a class="shop-cart-add" :data-id="item.id" :data-count="item.count" @click="handle(1,$event)" href="javascript:;"></a>
             </div>
           </div>
         </div>
         <div class="shopPrice">
-          本店总计：￥
-          <span class="ShopTotal">{{total.toFixed(2)}}</span>
+          <div>
+            小计：￥
+            <span class="ShopTotal">{{(item.count*item.price).toFixed(2)}}</span>
+          </div>
+          <a @click="delItem(item.id)" href="javascript:;">删除</a>
         </div>
+      </div>
+      <div :style="{display:isLogin}" class="carts-notLogin">
+        您尚未登录
+        <router-link to="/login">点我去登录</router-link>
+      </div>
+      <div :style="{display:empCart}" class="emp-carts">
+        <p><img src="../../public/img/empcart.png"></p>
+        <p class="second-p">空空如也~~</p>
+        <p><router-link to="/classify">去逛逛</router-link></p>
       </div>
     </div>
     <div class="shop-cart-total">
       <label for="" class="checkall">
         <span class="shop-cart-check1">
-          <input type="checkbox" id="ckAll">
+          <input v-model="checked" @click="chooseAll" type="checkbox" id="ckAll">
         </span>
         全选
       </label>
@@ -52,16 +64,81 @@ import tabbar from "../components/tabbar"
 export default {
   data(){
     return{
-      list:[
-        {isChecked:false,img:require("../../public/img/fruits-img12.png"),title:"1SNP 燕窝补水面膜 10片/盒含燕窝精华 双倍补水保湿",price:10,count:1}
-      ]
+      checked:"",
+      list:[],
+      checkedList:[],
+      isLogin:"none",
+      empCart:"none"
     }
   },
   methods:{
-    handle(i){
-      for(var item of this.list){
-        item.count+=i;
-        item.count<0&&(item.count=0);
+    chooseAll(e){
+      var checked=e.target.checked;
+      var arr=[];
+      if(checked){
+        for(var p of this.list){
+          arr.push(p.id);
+        }
+        this.checkedList=arr;
+      }else{
+        this.checkedList=[];
+      }
+      
+    },
+    delItem(id){
+      this.$dialog.confirm({
+        message:"是否删除这件商品"
+      }).then(()=>{
+        var url="delItem";
+        this.axios.get(url,{params:{id}}).then(res=>{
+          if(res.data.code==1){
+            this.$toast("删除成功");
+            this.loadProduct();
+          }else{
+            this.$toast("删除失败")
+          }
+        }).catch(err=>{})
+      }).catch(()=>{})
+    },
+    loadProduct(){
+     var url="carts";
+     this.axios.get(url).then(res=>{
+       if(res.data.code==-1){
+        this.isLogin="block";
+       }else{
+         var rows=res.data.data;
+         for(var p of rows){
+           p.isChecked=false;
+         }
+         this.list=rows;
+         rows.length==0&&(this.empCart="block")
+       }
+     })
+    },
+    handle(i,e){
+      var id=e.target.dataset.id;
+      var count=parseInt(e.target.dataset.count)+i;
+      if(count==0){
+        this.delItem(id);
+        return;
+      }
+      var url="updateCount";
+      this.axios.get(url,{params:{id,count}})
+      .then(res=>{
+        if(res.data.code==1){
+          this.loadProduct();
+        }else{
+          this.$toast("修改失败");
+        }
+      }).catch(err=>{})
+    },
+  },
+  watch: {
+    checkedList(){
+      if(this.checkedList.length==this.list.length){
+        this.checked=true;
+      }else{
+        this.checked=false;
       }
     }
   },
@@ -69,15 +146,20 @@ export default {
     total(){
       var sum=0;
       for(var item of this.list){
-        if(item.isChecked){
+       for(var i of this.checkedList){
+          if(item.id==i){
           sum+=item.count*item.price;
         }
+       }
       }
       return sum;
     }
   },
   components:{
     'tabbar':tabbar
+  },
+  created(){
+    this.loadProduct();
   },
   mounted(){
     this.$refs.tab.active=2;
@@ -111,6 +193,44 @@ export default {
   margin-top: 0.2rem;
 }
 /* 主体内容 */
+/* 未登录 */
+.carts-notLogin{
+  text-align: center;
+  background: #fff;
+  padding: 2rem 0;
+  font-size: 1rem;
+}
+.carts-notLogin a{
+  color:#379EDE;
+}
+/* 购物车空的 */
+.emp-carts{
+  width: 100%;
+  text-align: center;
+  padding: 1rem 0;
+  background: #fff;
+}
+.emp-carts p{
+  margin-bottom: 0.6rem;
+}
+.second-p{
+  font-weight: 600;
+  font-size: 1rem;
+  color:#999;
+}
+.emp-carts p a{
+  display: inline-block;
+  height: 1.5rem;
+  line-height: 1.5rem;
+  background:  #FF9201;
+  color: #fff;
+  padding: 0 1rem;
+  font-size: 0.85rem;
+  border-radius: 15px;
+}
+
+
+
 .shop-cart-bigbox {
   width: 100%;
   margin-top: 2.7rem;
@@ -244,14 +364,21 @@ input[type=checkbox]:checked::after {
 /* 本店总计 */
 .carts .shopPrice {
   width: 94%;
-  float: left;
-  height: 40px;
-  line-height: 40px;
+  display: flex;
+  height: 30px;
+  line-height: 30px;
   background: #fff;
   padding: 0px 3%;
   font-size: 14px;
   border-top: 1px solid #F9F9F9;
   border-bottom: 1px solid #F9F9F9;
+  justify-content: space-between;
+}
+.carts .shopPrice a{
+  background:  #FF9201;
+  color: #fff;
+  padding: 0 1rem;
+  border-radius: 15px;
 }
 
 /* 全选 */
