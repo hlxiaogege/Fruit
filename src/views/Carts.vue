@@ -140,6 +140,11 @@ export default {
       }else{
         this.checked=false;
       }
+    },
+    list(){
+      if(this.list.length==0){
+        this.checked=false;
+      }
     }
   },
   computed:{

@@ -10,32 +10,32 @@
       <form action="">
         <p class="reg-code-line">
           <i class="icon icon-phone"></i>
-          <input class="reg-code-line-input" placeholder="请输入手机号码">
+          <input v-model="uname" class="reg-code-line-input" placeholder="请输入手机号码">
         </p>
         <p class="reg-code-line">
           <i class="icon icon-psd"></i>
-          <input type="password" class="reg-code-line-input" placeholder="请输入密码">
+          <input v-model="upwd" type="password" class="reg-code-line-input" placeholder="请输入密码">
         </p>
         <p class="reg-code-line">
           <i class="icon icon-psd"></i>
-          <input type="password" class="reg-code-line-input" placeholder="请再次输入密码">
+          <input v-model="rpwd" type="password" class="reg-code-line-input" placeholder="请再次输入密码">
         </p>
         <p class="reg-code-line">
           <i class="icon icon-code"></i>
-          <input class="reg-code-line-input" placeholder="输入验证码">
+          <input v-model="code1" class="reg-code-line-input" placeholder="输入验证码">
           <a href="javascript:;"  @click="startTimer" class="reg-code-active" :class="{'reg-code-disabled':time<60}">
             {{time==60?"获取验证码":`${time}s后重新发送`}}
           </a>
         </p>
         <p class="reg-code-line">
           <i class="icon icon-img"></i>
-          <input class="reg-code-line-input" placeholder="输入验证码">
+          <input  v-model="code2" class="reg-code-line-input" placeholder="输入验证码">
           <a href="javascript:;" class="reg-code-active">
             <img src="../../public/img/code.png">
           </a>
         </p>
         <div class="reg-code-btn">
-          <button @click="alert">立即注册</button>
+          <button @click="reg">立即注册</button>
         </div>
         <div class="reg-forget">
           已有账号,
@@ -50,23 +50,62 @@ export default {
   data() {
     return {
       time:60,
-      timer:null
+      timer:null,
+      uname:"",
+      upwd:"",
+      rpwd:"",
+      code1:"",
+      code2:""
     }
   },
   methods: {
-    alert(){
-      this.$toast({
-        message:"注册成功",
-        position: 'bottom',
-        getCode:false,
-        time:60,
-        timer:null
-      });
-      setTimeout(()=>{
-        this.$router.push("/login");
-      },3000);
+    reg(){
+      var reg=/^1[3-9]\d{9}$/;
+      var uname=this.uname;
+      var upwd=this.upwd;
+      if(this.uname==""){
+        this.$toast("手机号不能为空")
+        return
+      }else if(!reg.test(this.uname)){
+        this.$toast("请输入正确的手机号")
+        return
+      }else{
+        var url="regphone";
+        this.axios.get(url,{params:{uname}}).then(res=>{
+          if(res.data.code==1){
+            this.$toast("手机号已存在，不可使用")
+            return
+          }
+        }).catch(err=>{})
+      }
+      if(this.upwd==""){
+        this.$toast("密码不能为空")
+        return
+      }
+      if(this.rpwd==""||this.rpwd!=this.upwd){
+        this.$toast("两次输入密码不一致")
+        return
+      }
+      if(this.code1==""||this.code2==""){
+        this.$toast("验证码不能为空")
+        return
+      }
+      this.axios.get("reg",{
+        params:{
+          uname,upwd
+        }
+      }).then(res=>{
+        if(res.data.code==1){
+          this.$toast("注册成功");
+          setTimeout(()=>{
+            this.$router.push("/login");
+          },2000)
+        }else{
+          this.$toast("注册失败，请重试");
+        }
+      }).catch(err=>{})
     },
-     startTimer(){
+    startTimer(){
      if(this.time==60){
       this.time=59;
       this.timer=setInterval(()=>{
